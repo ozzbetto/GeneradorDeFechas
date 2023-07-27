@@ -1,13 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Asignación de sábados</title>
-  <link rel="stylesheet" type="text/css" href="styles.css">
+  <title>Guardia de los días sábados TOCSA</title>
+  <!-- CSS de Bootstrap -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-  <h1>Asignación de sábados</h1>
-  <button onclick="generateDates()">Generar fechas</button>
-  <div id="datesList"></div>
+  <div class="container">
+    <h1 class="text-center my-4">Guardia de los días sábados TOCSA</h1>
+    <div class="text-center">
+      <button class="btn btn-primary mr-2" onclick="generateDates()">Generar fechas</button>
+      <button class="btn btn-success" onclick="window.print()">Imprimir</button>
+    </div>
+    <div id="datesList" class="mt-4"></div>
+  </div>
+  
+  <!-- JS de Bootstrap y jQuery (necesario para algunos componentes JavaScript de Bootstrap) -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
   <script src="script.js"></script>
 </body>

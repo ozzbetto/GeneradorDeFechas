@@ -13,40 +13,11 @@
 <body>
 <div class="container">
     <h1 class="text-center mt-4 mb-4">Asignación de Sábados TOCSA</h1>
-    <button class="btn btn-primary" onclick="showAssignments()">Generar fechas</button>
-    <div id="assignments" class="d-flex flex-wrap justify-content-start mt-4"></div>
+    <button class="btn btn-primary" onclick="generateDates()">Generar fechas</button>
+    <div id="datesList" class="d-flex flex-wrap justify-content-start mt-4"></div>
 </div>
 
-<script>
-    let names = ["Herminio", "Carlos", "Christian", "Francisco"];
-    let date = new Date();
-    date.setMonth(date.getMonth() + 1);
-    date.setDate(1);
-
-    while (date.getDay() !== 6) {
-        date.setDate(date.getDate() + 1);
-    }
-
-    let assignments = [];
-
-    for (let i = 0; i < 16; i++) {
-        assignments.push({date: new Date(date), name: names[i % names.length]});
-        date.setDate(date.getDate() + 7);
-    }
-
-    function showAssignments() {
-        let div = document.getElementById("assignments");
-        div.innerHTML = "";
-        for (let assignment of assignments) {
-            let card = document.createElement("div");
-            card.className = "card p-3 flex-fill";
-            let text = document.createElement("p");
-            text.textContent = assignment.date.toLocaleDateString() + ": " + assignment.name;
-            card.appendChild(text);
-            div.appendChild(card);
-        }
-    }
-</script>
+<script src = 'script.js'</script>
 
 </body>
 </html>

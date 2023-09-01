@@ -28,18 +28,16 @@ function mezclarAsignaciones(asignaciones) {
 
 function mezclarFechas() {
     const asignaciones = generarFechas(true); // Obtener las asignaciones sin refrescar la tabla
+    const sábados = obtenerSabadosDelMes();
     const nuevasAsignaciones = mezclarAsignaciones(asignaciones);
-    mostrarAsignaciones(nuevasAsignaciones); // Refrescar la tabla con las nuevas asignaciones
+    mostrarAsignaciones(nuevasAsignaciones, sábados); // Refrescar la tabla con las nuevas asignaciones
 }
 
-function generarFechas(sinMostrar = false) {
+function obtenerSabadosDelMes() {
     const fechaActual = new Date();
     const mesActual = fechaActual.getMonth();
     const anoActual = fechaActual.getFullYear();
 
-    let asignaciones = {};
-
-    // Obtener todos los sábados del mes
     let sábados = [];
     for (let i = 1; i <= 31; i++) {
         let fecha = new Date(anoActual, mesActual, i);
@@ -47,6 +45,12 @@ function generarFechas(sinMostrar = false) {
             sábados.push(fecha);
         }
     }
+    return sábados;
+}
+
+function generarFechas(sinMostrar = false) {
+    const sábados = obtenerSabadosDelMes();
+    let asignaciones = {};
 
     // Asignar fechas a empleados
     for (let i = 0; i < sábados.length; i++) {
@@ -59,13 +63,13 @@ function generarFechas(sinMostrar = false) {
 
     // Llenar la tabla con las fechas asignadas
     if (!sinMostrar) {
-        mostrarAsignaciones(asignaciones);
+        mostrarAsignaciones(asignaciones, sábados);
     }
 
     return asignaciones;
 }
 
-function mostrarAsignaciones(asignaciones) {
+function mostrarAsignaciones(asignaciones, sábados) {
     const tablaGuardias = document.getElementById('tablaGuardias');
     tablaGuardias.innerHTML = ''; // Limpiar la tabla
 

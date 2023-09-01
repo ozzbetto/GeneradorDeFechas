@@ -1,3 +1,14 @@
+const empleados = ['Herminio', 'Carlos', 'Christian', 'Francisco'];
+
+function mezclarFechas() {
+    // Mezcla el array de empleados
+    for (let i = empleados.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [empleados[i], empleados[j]] = [empleados[j], empleados[i]];
+    }
+    generarFechas(); // Llama a generarFechas para refrescar la tabla con los nombres mezclados
+}
+
 function generarFechas() {
     const tablaGuardias = document.getElementById('tablaGuardias');
     tablaGuardias.innerHTML = ''; // Limpiar la tabla
@@ -6,7 +17,6 @@ function generarFechas() {
     const mesActual = fechaActual.getMonth();
     const anoActual = fechaActual.getFullYear();
 
-    const empleados = ['Herminio', 'Carlos', 'Christian', 'Francisco'];
     let asignaciones = {};
 
     // Obtener todos los sábados del mes
@@ -27,22 +37,16 @@ function generarFechas() {
         asignaciones[empleado].push(sábados[i]);
     }
 
+    const colores = ['color1', 'color2', 'color3', 'color4'];
+
     // Llenar la tabla con las fechas asignadas
     sábados.forEach((sábado, index) => {
-        let fila = '<tr class="fila-tenue"><td>' + sábado.toLocaleDateString() + '</td>';
+        let colorFila = colores[index % colores.length];
+        let fila = `<tr class="${colorFila}"><td>` + sábado.toLocaleDateString() + '</td>';
         empleados.forEach(empleado => {
             fila += '<td>' + (asignaciones[empleado].includes(sábado) ? '✓' : '') + '</td>';
         });
         fila += '</tr>';
         tablaGuardias.innerHTML += fila;
     });
-}
-
-function mezclarFechas() {
-    // Mezcla el array de empleados
-    for (let i = empleados.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [empleados[i], empleados[j]] = [empleados[j], empleados[i]];
-    }
-    generarFechas(); // Llama a generarFechas para refrescar la tabla con los nombres mezclados
 }

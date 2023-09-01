@@ -2,26 +2,26 @@ const empleados = ['Herminio', 'Carlos', 'Christian', 'Francisco'];
 
 function mezclarFechas() {
     const sábados = obtenerSabadosDelMes();
-    const asignacionesActuales = generarFechas(true);
+    let empleadosMezclados = [...empleados];
 
-    // Mezclar todos los sábados
-    for (let i = sábados.length - 1; i > 0; i--) {
+    // Mezclar el arreglo de empleados
+    for (let i = empleadosMezclados.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [sábados[i], sábados[j]] = [sábados[j], sábados[i]];
+        [empleadosMezclados[i], empleadosMezclados[j]] = [empleadosMezclados[j], empleadosMezclados[i]];
     }
 
-    let asignaciones = {};
+    let nuevasAsignaciones = {};
     empleados.forEach(empleado => {
-        asignaciones[empleado] = [];
+        nuevasAsignaciones[empleado] = [];
     });
 
-    // Asignar sábados mezclados a empleados
+    // Asignar sábados a empleados mezclados
     for (let i = 0; i < sábados.length; i++) {
-        let empleado = empleados[i % empleados.length];
-        asignaciones[empleado].push(sábados[i]);
+        let empleado = empleadosMezclados[i % empleados.length];
+        nuevasAsignaciones[empleado].push(sábados[i]);
     }
 
-    mostrarAsignaciones(asignaciones, sábados);
+    mostrarAsignaciones(nuevasAsignaciones, sábados);
 }
 
 function obtenerSabadosDelMes() {

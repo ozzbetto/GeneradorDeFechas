@@ -1,40 +1,39 @@
-function generateDates(){
-  document.getElementById('datesList').innerHTML = ""; // Limpia la lista antes de generar nuevas fechas
-  
-  // Comenzamos desde septiembre de 2023
-  let startDate = new Date(2023, 8, 1); // Meses en JavaScript son 0-indexados, por lo que 8 representa septiembre
-  
-  for(let i = 0; i < 52; i++){
-    let saturday = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + i*7);
-    let card = generateDateCard(saturday.toLocaleDateString(), saturday.getMonth());
-    document.getElementById('datesList').appendChild(card);
-  }
-}
+function generarFechas() {
+    const tablaGuardias = document.getElementById('tablaGuardias');
+    tablaGuardias.innerHTML = ''; // Limpiar la tabla
 
-function generateDateCard(date, month) {
-  let card = document.createElement('div');
-  card.className = 'card p-2 m-2';  // Estilos Bootstrap: card, padding y margen
-  card.innerText = date;
-  
-  // Aquí puedes agregar los nombres de las personas agrupados por mes
-  let namesForMonth = getNamesByMonth(month);
-  let namesList = document.createElement('ul');
-  namesForMonth.forEach(name => {
-    let listItem = document.createElement('li');
-    listItem.innerText = name;
-    namesList.appendChild(listItem);
-  });
-  card.appendChild(namesList);
-  
-  card.style.backgroundColor = '#FAFAD2';  // Color de fondo crema
-  return card;
-}
+    const fechaActual = new Date();
+    const mesActual = fechaActual.getMonth();
+    const anoActual = fechaActual.getFullYear();
 
-function getNamesByMonth(month) {
-  // Aquí debes obtener los nombres de las personas por mes. 
-  // Por ahora, devolveré un array de ejemplo:
-  let exampleNames = [
-    ["Herminio", "Francisco", "Carlos", "Christian"]
-  ];
-  return exampleNames[month] || []; // Devuelve los nombres del mes o un array vacío si no hay nombres
+    const empleados = ['Herminio', 'Carlos', 'Christian', 'Francisco'];
+    let asignaciones = {};
+
+    // Obtener todos los sábados del mes
+    let sábados = [];
+    for (let i = 1; i <= 31; i++) {
+        let fecha = new Date(anoActual, mesActual, i);
+        if (fecha.getDay() === 6) { // 6 es sábado
+            sábados.push(fecha);
+        }
+    }
+
+    // Asignar fechas a empleados
+    for (let i = 0; i < sábados.length; i++) {
+        let empleado = empleados[i % empleados.length];
+        if (!asignaciones[empleado]) {
+            asignaciones[empleado] = [];
+        }
+        asignaciones[empleado].push(sábados[i]);
+    }
+
+    // Llenar la tabla con las fechas asignadas
+    sábados.forEach(sábado => {
+        let fila = '<tr><td>' + sábado.toLocaleDateString() + '</td>';
+        empleados.forEach(empleado => {
+            fila += '<td>' + (asignaciones[empleado].includes(sábado) ? '✓' : '') + '</td>';
+        });
+        fila += '</tr>';
+        tablaGuardias.innerHTML += fila;
+    });
 }

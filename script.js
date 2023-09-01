@@ -28,12 +28,21 @@ function generarFechas() {
     }
 
     // Llenar la tabla con las fechas asignadas
-    sábados.forEach(sábado => {
-        let fila = '<tr><td>' + sábado.toLocaleDateString() + '</td>';
+    sábados.forEach((sábado, index) => {
+        let fila = '<tr class="fila-tenue"><td>' + sábado.toLocaleDateString() + '</td>';
         empleados.forEach(empleado => {
             fila += '<td>' + (asignaciones[empleado].includes(sábado) ? '✓' : '') + '</td>';
         });
         fila += '</tr>';
         tablaGuardias.innerHTML += fila;
     });
+}
+
+function mezclarFechas() {
+    // Mezcla el array de empleados
+    for (let i = empleados.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [empleados[i], empleados[j]] = [empleados[j], empleados[i]];
+    }
+    generarFechas(); // Llama a generarFechas para refrescar la tabla con los nombres mezclados
 }

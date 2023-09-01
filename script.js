@@ -4,34 +4,24 @@ function mezclarFechas() {
     const sábados = obtenerSabadosDelMes();
     const asignacionesActuales = generarFechas(true);
 
-    let todosLosCheckmarks = [];
-    empleados.forEach(empleado => {
-        sábados.forEach(sábado => {
-            if (asignacionesActuales[empleado].includes(sábado)) {
-                todosLosCheckmarks.push(sábado);
-            }
-        });
-    });
-
-    // Mezclar todos los checkmarks
-    for (let i = todosLosCheckmarks.length - 1; i > 0; i--) {
+    // Mezclar todos los sábados
+    for (let i = sábados.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [todosLosCheckmarks[i], todosLosCheckmarks[j]] = [todosLosCheckmarks[j], todosLosCheckmarks[i]];
+        [sábados[i], sábados[j]] = [sábados[j], sábados[i]];
     }
 
-    // Reasignar los checkmarks mezclados a los empleados
-    let nuevasAsignaciones = {};
+    let asignaciones = {};
     empleados.forEach(empleado => {
-        nuevasAsignaciones[empleado] = [];
+        asignaciones[empleado] = [];
     });
 
-    empleados.forEach(empleado => {
-        for (let i = 0; i < sábados.length / empleados.length; i++) {
-            nuevasAsignaciones[empleado].push(todosLosCheckmarks.pop());
-        }
-    });
+    // Asignar sábados mezclados a empleados
+    for (let i = 0; i < sábados.length; i++) {
+        let empleado = empleados[i % empleados.length];
+        asignaciones[empleado].push(sábados[i]);
+    }
 
-    mostrarAsignaciones(nuevasAsignaciones, sábados);
+    mostrarAsignaciones(asignaciones, sábados);
 }
 
 function obtenerSabadosDelMes() {
@@ -53,16 +43,15 @@ function generarFechas(sinMostrar = false) {
     const sábados = obtenerSabadosDelMes();
     let asignaciones = {};
 
-    // Asignar fechas a empleados
+    empleados.forEach(empleado => {
+        asignaciones[empleado] = [];
+    });
+
     for (let i = 0; i < sábados.length; i++) {
         let empleado = empleados[i % empleados.length];
-        if (!asignaciones[empleado]) {
-            asignaciones[empleado] = [];
-        }
         asignaciones[empleado].push(sábados[i]);
     }
 
-    // Llenar la tabla con las fechas asignadas
     if (!sinMostrar) {
         mostrarAsignaciones(asignaciones, sábados);
     }

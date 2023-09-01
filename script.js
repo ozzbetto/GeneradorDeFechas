@@ -1,40 +1,37 @@
 const empleados = ['Herminio', 'Carlos', 'Christian', 'Francisco'];
 
-function mezclarAsignaciones(asignaciones, sábados) {
-    let todasLasFechas = [];
+function mezclarFechas() {
+    const sábados = obtenerSabadosDelMes();
+    const asignacionesActuales = generarFechas(true);
+
+    let todosLosCheckmarks = [];
     empleados.forEach(empleado => {
         sábados.forEach(sábado => {
-            if (asignaciones[empleado].includes(sábado)) {
-                todasLasFechas.push({empleado, sábado});
+            if (asignacionesActuales[empleado].includes(sábado)) {
+                todosLosCheckmarks.push(sábado);
             }
         });
     });
 
-    // Mezclar todas las asignaciones
-    for (let i = todasLasFechas.length - 1; i > 0; i--) {
+    // Mezclar todos los checkmarks
+    for (let i = todosLosCheckmarks.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [todasLasFechas[i], todasLasFechas[j]] = [todasLasFechas[j], todasLasFechas[i]];
+        [todosLosCheckmarks[i], todosLosCheckmarks[j]] = [todosLosCheckmarks[j], todosLosCheckmarks[i]];
     }
 
-    // Reasignar las fechas mezcladas a los empleados
+    // Reasignar los checkmarks mezclados a los empleados
     let nuevasAsignaciones = {};
     empleados.forEach(empleado => {
         nuevasAsignaciones[empleado] = [];
     });
 
-    todasLasFechas.forEach(asignacion => {
-        let empleado = empleados[todasLasFechas.indexOf(asignacion) % empleados.length];
-        nuevasAsignaciones[empleado].push(asignacion.sábado);
+    empleados.forEach(empleado => {
+        for (let i = 0; i < sábados.length / empleados.length; i++) {
+            nuevasAsignaciones[empleado].push(todosLosCheckmarks.pop());
+        }
     });
 
-    return nuevasAsignaciones;
-}
-
-function mezclarFechas() {
-    const sábados = obtenerSabadosDelMes();
-    const asignaciones = generarFechas(true); // Obtener las asignaciones sin refrescar la tabla
-    const nuevasAsignaciones = mezclarAsignaciones(asignaciones, sábados);
-    mostrarAsignaciones(nuevasAsignaciones, sábados); // Refrescar la tabla con las nuevas asignaciones
+    mostrarAsignaciones(nuevasAsignaciones, sábados);
 }
 
 function obtenerSabadosDelMes() {

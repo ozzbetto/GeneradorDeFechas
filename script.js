@@ -12,7 +12,7 @@ function mezclarAsignaciones(asignaciones) {
         [todasLasFechas[i], todasLasFechas[j]] = [todasLasFechas[j], todasLasFechas[i]];
     }
 
-    // Asignar las fechas mezcladas a los empleados
+    // Reasignar las fechas mezcladas a los empleados
     let nuevasAsignaciones = {};
     empleados.forEach(empleado => {
         nuevasAsignaciones[empleado] = [];
@@ -27,8 +27,8 @@ function mezclarAsignaciones(asignaciones) {
 }
 
 function mezclarFechas() {
-    const asignaciones = generarFechas(true); // Obtener las asignaciones sin refrescar la tabla
     const sábados = obtenerSabadosDelMes();
+    const asignaciones = generarFechas(true); // Obtener las asignaciones sin refrescar la tabla
     const nuevasAsignaciones = mezclarAsignaciones(asignaciones);
     mostrarAsignaciones(nuevasAsignaciones, sábados); // Refrescar la tabla con las nuevas asignaciones
 }

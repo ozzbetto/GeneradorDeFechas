@@ -1,12 +1,16 @@
 const empleados = ['Herminio', 'Carlos', 'Christian', 'Francisco'];
 
-function mezclarAsignaciones(asignaciones) {
+function mezclarAsignaciones(asignaciones, sábados) {
     let todasLasFechas = [];
-    for (let empleado in asignaciones) {
-        todasLasFechas = todasLasFechas.concat(asignaciones[empleado]);
-    }
+    empleados.forEach(empleado => {
+        sábados.forEach(sábado => {
+            if (asignaciones[empleado].includes(sábado)) {
+                todasLasFechas.push({empleado, sábado});
+            }
+        });
+    });
 
-    // Mezclar todas las fechas
+    // Mezclar todas las asignaciones
     for (let i = todasLasFechas.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [todasLasFechas[i], todasLasFechas[j]] = [todasLasFechas[j], todasLasFechas[i]];
@@ -18,10 +22,10 @@ function mezclarAsignaciones(asignaciones) {
         nuevasAsignaciones[empleado] = [];
     });
 
-    for (let i = 0; i < todasLasFechas.length; i++) {
-        let empleado = empleados[i % empleados.length];
-        nuevasAsignaciones[empleado].push(todasLasFechas[i]);
-    }
+    todasLasFechas.forEach(asignacion => {
+        let empleado = empleados[todasLasFechas.indexOf(asignacion) % empleados.length];
+        nuevasAsignaciones[empleado].push(asignacion.sábado);
+    });
 
     return nuevasAsignaciones;
 }
@@ -29,7 +33,7 @@ function mezclarAsignaciones(asignaciones) {
 function mezclarFechas() {
     const sábados = obtenerSabadosDelMes();
     const asignaciones = generarFechas(true); // Obtener las asignaciones sin refrescar la tabla
-    const nuevasAsignaciones = mezclarAsignaciones(asignaciones);
+    const nuevasAsignaciones = mezclarAsignaciones(asignaciones, sábados);
     mostrarAsignaciones(nuevasAsignaciones, sábados); // Refrescar la tabla con las nuevas asignaciones
 }
 

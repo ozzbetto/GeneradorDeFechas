@@ -37,10 +37,14 @@ function generarFechasParaTodosLosMeses() {
 
 function descargarPDF() {
     const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-    doc.text("Asignaciones de Guardias", 10, 10);
-    // Aquí puedes agregar el contenido que deseas en el PDF
-    doc.save("asignaciones.pdf");
+    const contenedor = document.getElementById('contenedorTablas');
+
+    html2canvas(contenedor).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF();
+        pdf.addImage(imgData, 'PNG', 10, 10);
+        pdf.save("asignaciones.pdf");
+    });
 }
 
 function mostrarAsignaciones(asignaciones, sábados, mes) {

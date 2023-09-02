@@ -39,10 +39,13 @@ function descargarPDF() {
     const { jsPDF } = window.jspdf;
     const contenedor = document.getElementById('contenedorTablas');
 
-    html2canvas(contenedor).then(canvas => {
+    html2canvas(contenedor, {
+        scale: 0.5,
+        useCORS: true
+    }).then(canvas => {
         const imgData = canvas.toDataURL('image/png');
         const pdf = new jsPDF();
-        pdf.addImage(imgData, 'PNG', 10, 10);
+        pdf.addImage(imgData, 'PNG', 10, 10, 180, canvas.height * 180 / canvas.width);
         pdf.save("asignaciones.pdf");
     });
 }
@@ -80,6 +83,9 @@ function mostrarAsignaciones(asignaciones, sábados, mes) {
 
 function mezclarAsignaciones() {
     const mesActual = new Date().getMonth();
+    const contenedor = document.getElementById('contenedorTablas');
+    contenedor.innerHTML = ''; // Limpiamos el contenedor antes de mostrar las nuevas asignaciones
+
     for (let mes = mesActual; mes < 12; mes++) {
         const sábados = obtenerSabadosDelMes(mes);
         let asignaciones = {};

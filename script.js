@@ -30,9 +30,6 @@ function generarFechasParaMes(mes) {
 
 function generarFechasParaTodosLosMeses() {
     const mesActual = new Date().getMonth();
-    const contenedor = document.getElementById('contenedorTablas');
-    contenedor.innerHTML = ''; // Limpiar el contenedor
-
     for (let mes = mesActual; mes < 12; mes++) {
         generarFechasParaMes(mes);
     }
@@ -75,4 +72,25 @@ function mostrarAsignaciones(asignaciones, sábados, mes) {
 
     tabla += '</tbody></table>';
     contenedor.innerHTML += tabla;
+}
+
+function mezclarAsignaciones() {
+    const mesActual = new Date().getMonth();
+    for (let mes = mesActual; mes < 12; mes++) {
+        const sábados = obtenerSabadosDelMes(mes);
+        let asignaciones = {};
+
+        let empleadosMezclados = [...empleados];
+        empleadosMezclados.sort(() => Math.random() - 0.5);
+
+        for (let i = 0; i < sábados.length; i++) {
+            let empleado = empleadosMezclados[i % empleadosMezclados.length];
+            if (!asignaciones[empleado]) {
+                asignaciones[empleado] = [];
+            }
+            asignaciones[empleado].push(sábados[i]);
+        }
+
+        mostrarAsignaciones(asignaciones, sábados, mes);
+    }
 }

@@ -4,29 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Asignaciones de Guardias</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        .color1 { background-color: #EAF7FE; }
-        .color2 { background-color: #FEF3E6; }
-        .color3 { background-color: #E6FEEA; }
-        .color4 { background-color: #FEEAF6; }
-    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
 
 <div class="container mt-5">
     <h2>Asignaciones de Guardias</h2>
-    <button onclick="generarFechasParaTodosLosMeses()">Generar fechas hasta diciembre</button>
-    <button onclick="mezclarAsignaciones()">Mezclar</button>
-    <button onclick="descargarPDF()">Descargar PDF</button>
+    <button class="btn btn-primary" onclick="generarFechasParaTodosLosMeses()">Generar fechas hasta diciembre</button>
+    <button class="btn btn-secondary" onclick="mezclarAsignaciones()">Mezclar</button>
+    <button class="btn btn-success" onclick="descargarPDF()">Descargar PDF</button>
     <div id="contenedorTablas"></div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="script.js"></script>
 </body>
 </html>

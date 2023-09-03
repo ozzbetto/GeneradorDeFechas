@@ -44,8 +44,8 @@ function descargarPDF() {
         useCORS: true
     }).then(canvas => {
         const imgData = canvas.toDataURL('image/png');
-        const pdf = new jsPDF();
-        pdf.addImage(imgData, 'PNG', 10, 10, 180, canvas.height * 180 / canvas.width);
+        const pdf = new jsPDF('landscape');
+        pdf.addImage(imgData, 'PNG', 10, 10, 280, canvas.height * 280 / canvas.width);
         pdf.save("asignaciones.pdf");
     });
 }
@@ -53,7 +53,7 @@ function descargarPDF() {
 function mostrarAsignaciones(asignaciones, sábados, mes) {
     const contenedor = document.getElementById('contenedorTablas');
     const mesesNombres = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-    const colores = ['color1', 'color2', 'color3', 'color4'];
+    const colores = ['table-primary', 'table-secondary', 'table-success', 'table-danger'];
 
     let tabla = `<h3>${mesesNombres[mes]}</h3>
                  <table class="table table-bordered">
@@ -82,25 +82,18 @@ function mostrarAsignaciones(asignaciones, sábados, mes) {
 }
 
 function mezclarAsignaciones() {
-    const mesActual = new Date().getMonth();
     const contenedor = document.getElementById('contenedorTablas');
-    contenedor.innerHTML = ''; // Limpiamos el contenedor antes de mostrar las nuevas asignaciones
-
-    for (let mes = mesActual; mes < 12; mes++) {
-        const sábados = obtenerSabadosDelMes(mes);
-        let asignaciones = {};
-
-        let empleadosMezclados = [...empleados];
-        empleadosMezclados.sort(() => Math.random() - 0.5);
-
-        for (let i = 0; i < sábados.length; i++) {
-            let empleado = empleadosMezclados[i % empleadosMezclados.length];
-            if (!asignaciones[empleado]) {
-                asignaciones[empleado] = [];
-            }
-            asignaciones[empleado].push(sábados[i]);
-        }
-
-        mostrarAsignaciones(asignaciones, sábados, mes);
-    }
+    const tablas = contenedor.querySelectorAll('table');
+    
+    tablas.forEach(tabla => {
+        const filas = Array.from(tabla.querySelectorAll('tbody tr'));
+        filas.forEach(fila => {
+            const celdas = Array.from(fila.querySelectorAll('td:not(:first-child)'));
+            const checks = celdas.map(celda => celda.textContent.trim() === '✓');
+            const checksMezclados = [...checks].sort(() => Math.random() - 0.5);
+            celdas.forEach((celda, index) => {
+                celda.textContent = checksMezclados[index] ? '✓' : '';
+            });
+        });
+    });
 }

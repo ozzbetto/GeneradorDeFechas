@@ -20,9 +20,11 @@ function generarFechasParaMes(mes) {
         asignaciones[empleado] = [];
     });
 
+    let empleadosRotativos = [...empleados];
     for (let i = 0; i < sábados.length; i++) {
-        let empleado = empleados[i % empleados.length];
+        let empleado = empleadosRotativos.shift();
         asignaciones[empleado].push(sábados[i]);
+        empleadosRotativos.push(empleado);
     }
 
     mostrarAsignaciones(asignaciones, sábados, mes);
@@ -33,6 +35,7 @@ function generarFechasParaTodosLosMeses() {
     for (let mes = mesActual; mes < 12; mes++) {
         generarFechasParaMes(mes);
     }
+    document.getElementById("btnGenerar").disabled = true;
 }
 
 function descargarPDF() {
@@ -120,3 +123,6 @@ function mezclarFechasEntreEmpleados(sábados) {
 
     return asignaciones;
 }
+
+// Al cargar la página, generamos fechas aleatorias
+window.onload = generarFechasParaTodosLosMeses;

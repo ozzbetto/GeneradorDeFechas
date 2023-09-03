@@ -86,14 +86,31 @@ function mezclarAsignaciones() {
     const tablas = contenedor.querySelectorAll('table');
     
     tablas.forEach(tabla => {
+        const sábados = Array.from(tabla.querySelectorAll('tbody tr td:first-child')).map(td => new Date(td.textContent));
+        const asignacionesMezcladas = mezclarFechasEntreEmpleados(sábados);
+        
         const filas = Array.from(tabla.querySelectorAll('tbody tr'));
-        filas.forEach(fila => {
+        filas.forEach((fila, index) => {
             const celdas = Array.from(fila.querySelectorAll('td:not(:first-child)'));
-            const checks = celdas.map(celda => celda.textContent.trim() === '✓');
-            const checksMezclados = [...checks].sort(() => Math.random() - 0.5);
-            celdas.forEach((celda, index) => {
-                celda.textContent = checksMezclados[index] ? '✓' : '';
+            empleados.forEach((empleado, empIndex) => {
+                celdas[empIndex].textContent = asignacionesMezcladas[empleado].includes(sábados[index]) ? '✓' : '';
             });
         });
     });
+}
+
+function mezclarFechasEntreEmpleados(sábados) {
+    let fechasMezcladas = [...sábados].sort(() => Math.random() - 0.5);
+    let asignaciones = {};
+
+    empleados.forEach(empleado => {
+        asignaciones[empleado] = [];
+    });
+
+    for (let i = 0; i < fechasMezcladas.length; i++) {
+        let empleado = empleados[i % empleados.length];
+        asignaciones[empleado].push(fechasMezcladas[i]);
+    }
+
+    return asignaciones;
 }

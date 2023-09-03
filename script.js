@@ -100,16 +100,22 @@ function mezclarAsignaciones() {
 }
 
 function mezclarFechasEntreEmpleados(sábados) {
-    let fechasMezcladas = [...sábados].sort(() => Math.random() - 0.5);
+    let empleadosMezclados = [...empleados].sort(() => Math.random() - 0.5);
     let asignaciones = {};
+    let empleadoAnterior = null;
 
     empleados.forEach(empleado => {
         asignaciones[empleado] = [];
     });
 
-    for (let i = 0; i < fechasMezcladas.length; i++) {
-        let empleado = empleados[i % empleados.length];
-        asignaciones[empleado].push(fechasMezcladas[i]);
+    for (let i = 0; i < sábados.length; i++) {
+        let empleadoActual = empleadosMezclados.find(empleado => empleado !== empleadoAnterior);
+        asignaciones[empleadoActual].push(sábados[i]);
+        empleadoAnterior = empleadoActual;
+        empleadosMezclados = empleadosMezclados.filter(empleado => empleado !== empleadoActual);
+        if (empleadosMezclados.length === 0) {
+            empleadosMezclados = [...empleados].filter(empleado => empleado !== empleadoAnterior);
+        }
     }
 
     return asignaciones;

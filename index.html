@@ -9,11 +9,14 @@
 <body>
 
 <div class="container mt-5">
-    <h2>Asignaciones de Guardias</h2>
-    <button class="btn btn-primary" onclick="generarFechasParaTodosLosMeses()">Generar fechas hasta diciembre</button>
+    <h2>Asignaciones de Guardias Sábados TOCSA</h2>
+    <button id="btnGenerar" class="btn btn-primary" onclick="generarFechasParaTodosLosMeses()">Generar fechas hasta diciembre</button>
     <button class="btn btn-secondary" onclick="mezclarAsignaciones()">Mezclar</button>
     <button class="btn btn-success" onclick="descargarPDF()">Descargar PDF</button>
     <div id="contenedorTablas"></div>
+    <footer class="mt-5">
+        <p>Desarrollado por el departamento de informática de TOCSA 2023</p>
+    </footer>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>

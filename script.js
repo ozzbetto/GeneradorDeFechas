@@ -1,4 +1,4 @@
-const empleados = ['Herminio', 'Carlos', 'Christian', 'Francisco'];
+const empleados = ['Herminio', 'Carlos', 'Lucas', 'Francisco', 'Gustavo'];
 
 function obtenerSabadosDelMes(mes) {
     const anoActual = new Date().getFullYear();
@@ -65,8 +65,9 @@ function mostrarAsignaciones(asignaciones, sábados, mes) {
                              <th>Fecha</th>
                              <th>Herminio</th>
                              <th>Carlos</th>
-                             <th>Christian</th>
+                             <th>Lucas</th>
                              <th>Francisco</th>
+                             <th>Gustavo</th>
                          </tr>
                      </thead>
                      <tbody>`;

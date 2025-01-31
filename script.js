@@ -1,3 +1,86 @@
+const empleados = ['Herminio', 'Carlos', 'Lucas', 'Francisco', 'Gustavo'];
+
+function obtenerSabadosDelMes(mes) {
+    const anoActual = new Date().getFullYear();
+    let sábados = [];
+
+    for (let i = 1; i <= 31; i++) {
+        let fecha = new Date(anoActual, mes, i);
+        if (fecha.getMonth() !== mes) break; // Evita el problema de fechas fuera del mes
+        if (fecha.getDay() === 6) { // 6 es sábado
+            sábados.push(fecha);
+        }
+    }
+    return sábados;
+}
+
+function generarFechasParaMes(mes) {
+    const sábados = obtenerSabadosDelMes(mes);
+    let asignaciones = {};
+
+    // Inicializar las asignaciones para cada empleado
+    empleados.forEach(empleado => {
+        asignaciones[empleado] = [];
+    });
+
+    let empleadosRotativos = [...empleados];
+    for (let i = 0; i < sábados.length; i++) {
+        if (empleadosRotativos.length > 0) {
+            let empleado = empleadosRotativos.shift();
+            asignaciones[empleado].push(sábados[i]);
+            empleadosRotativos.push(empleado);
+        }
+    }
+
+    mostrarAsignaciones(asignaciones, sábados, mes);
+}
+
+function generarFechasParaTodosLosMeses() {
+    const mesActual = new Date().getMonth();
+    for (let mes = mesActual; mes < 12; mes++) {
+        generarFechasParaMes(mes);
+    }
+    document.getElementById("btnGenerar").disabled = true;
+}
+
+function mostrarAsignaciones(asignaciones, sábados, mes) {
+    const contenedor = document.getElementById('contenedorTablas');
+    const mesesNombres = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+    const colores = ['table-primary', 'table-secondary', 'table-success', 'table-danger'];
+
+    let tabla = `<h3>${mesesNombres[mes]}</h3>
+                 <table class="table table-bordered">
+                     <thead>
+                         <tr>
+                             <th>Fecha</th>`;
+    empleados.forEach(empleado => {
+        tabla += `<th>${empleado}</th>`;
+    });
+    tabla += `<th>Estado</th></tr></thead><tbody>`;
+
+    sábados.forEach((sábado, index) => {
+        let colorFila = colores[index % colores.length];
+        tabla += `<tr class="${colorFila}"><td>` + sábado.toLocaleDateString() + '</td>';
+
+        let asignado = false;
+        empleados.forEach(empleado => {
+            let tieneTurno = asignaciones[empleado].includes(sábado);
+            tabla += `<td>${tieneTurno ? '✓' : ''}</td>`;
+            if (tieneTurno) asignado = true;
+        });
+
+        // Si nadie tiene el turno, imprimir "LIBRE"
+        tabla += `<td>${asignado ? '' : 'LIBRE'}</td>`;
+        tabla += '</tr>';
+    });
+
+    tabla += '</tbody></table>';
+    contenedor.innerHTML += tabla;
+}
+
+// Generar asignaciones al cargar la página
+window.onload = generarFechasParaTodosLosMeses;
+
 /*const empleados = ['Herminio', 'Carlos', 'Lucas', 'Francisco', 'Gustavo'];
 
 function obtenerSabadosDelMes(mes) {
@@ -129,7 +212,7 @@ function mezclarFechasEntreEmpleados(sábados) {
 window.onload = generarFechasParaTodosLosMeses;
 */
 
-const empleados = ['Herminio', 'Carlos', 'Lucas', 'Francisco', 'Gustavo'];
+/*const empleados = ['Herminio', 'Carlos', 'Lucas', 'Francisco', 'Gustavo'];
 
 function obtenerSabadosDelMes(mes) {
     const anoActual = new Date().getFullYear();
@@ -256,4 +339,4 @@ function mezclarFechasEntreEmpleados(sábados) {
 }
 
 // Al cargar la página, generamos fechas para todos los meses
-window.onload = generarFechasParaTodosLosMeses;
+window.onload = generarFechasParaTodosLosMeses;*/
